@@ -48,7 +48,7 @@ const newRender = () => {
       const email = newGet(".email").textContent;
       //  const newWindow = window.open(url, windowName, [windowFeatures]);
       // function openNewWindow(url) {
-      const OpenWindow = window.open("", "Single USER");
+      const OpenWindow = window.open("", "_blank", "");
       OpenWindow.document.write(
         `
           <html>
