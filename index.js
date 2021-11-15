@@ -1,63 +1,3 @@
-const newRender = () => {
-  let cards = gets(".cards");
-  cards.forEach((card) => {
-    card.addEventListener("click", () => {
-      const win = window.open(
-        "",
-        "Card Details",
-        "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top=" +
-          (screen.height - 400) +
-          ",left=" +
-          (screen.width - 840)
-      );
-      function newGet(cards) {
-        return card.querySelector(cards);
-      }
-      const name = newGet("h1");
-      const img = newGet("img");
-      const body = newGet(".bodyy");
-      const id = newGet(".id");
-      const email = newGet(".email");
-      win.document.body.innerHTML = `
-       <div class="col-sm-6 col-md-4 text-center">
-          <div
-            style="width: 99%"
-            class="card-body position-relative ms-auto me-auto mb-2"
-          >
-            <div
-              class="
-                head
-                d-flex
-                justify-content-around
-                rounded-pill
-                py-1
-                align-items-center
-              "
-            >
-              <h1 class="px-2">${name.textContent}</h1>
-              <img
-                class="px-2 rounded-circle"
-                style="width: 5em; object-fit: cover"
-                src="${img.url}"
-                alt=""
-              />
-            </div>
-            <p class="mt-3">${body.textContent}</p>
-            <p class="d-flex align-items-center justify-content-center mb-0">
-              <i class="fs-5 text-primary mb-0 bi bi-envelope"></i>
-              <strong class="mb-0 px-2">${email.textContent}</strong>
-              <span
-                id="id"
-                class="position-absolute rounded text-white end-0 bottom-0 p-2"
-                ><strong>${id.textContent}</strong></span
-              >
-            </p>
-          </div>
-        </div>
-       `;
-    });
-  });
-};
 function get(element) {
   return document.querySelector(element);
 }
@@ -91,15 +31,98 @@ const formRange = get(".form-ran");
 const heading = get(".heading");
 const alerts = get(".alert");
 const body = get(".body");
+let master;
 let editId;
+// Rendering In a New Page
+const newRender = () => {
+  let cards = gets(".cards");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      function newGet(cards) {
+        return card.querySelector(cards);
+      }
+      const name = newGet("h1").textContent;
+      const img = newGet("img").getAttribute("src");
+      const body = newGet(".bodyy").textContent;
+      const id = newGet(".id").textContent;
+      const email = newGet(".email").textContent;
+      //  const newWindow = window.open(url, windowName, [windowFeatures]);
+      // function openNewWindow(url) {
+      const OpenWindow = window.open("", "Single USER");
+      OpenWindow.document.write(
+        `
+          <html>
+          <head>
+          <title>New window</title>
+          <link rel="stylesheet" href="./css/bootstrap.min.css" />
+          <link rel="stylesheet" href="./css/index.css" />
+          <title>Single USER</title>
+          </head>
+          <body>
+            `
+      );
+      OpenWindow.document.write(
+        `
+        <div  class="cards col-sm-6 col-md-4 text-center">
+            <div
+              style="width: 99%"
+              class="card-body position-relative ms-auto me-auto mb-2"
+            >
+              <div
+                class="
+                  head
+                  d-flex
+                  justify-content-around
+                  rounded-pill
+                  py-1
+                  align-items-center
+                "
+              >
+                <h1 class="px-2">${name}</h1>
+                <img
+                  class="px-2 rounded-circle"
+                  style="width: 5em; object-fit: cover"
+                  src="${img}"
+                  alt=""
+                />
+              </div>
+              <p class="mt-3 bodyy">
+                ${body}
+              </p>
+              <p class="d-flex align-items-center justify-content-center mb-0">
+                <i class="fs-5 text-primary mb-0 bi bi-envelope"></i>
+                <strong class="mb-0 px-2 email">${email}</strong>
+                <span
+                  id="id"
+                  class="
+                    position-absolute
+                    rounded
+                    text-white
+                    end-0
+                    bottom-0
+                    p-2
+                  "
+
+                  ><strong class="id">${id}</strong></span
+                >
+              </p>
+            </div>
+          </div>
+        `
+      );
+      OpenWindow.document.write("</body></html>");
+      // }
+    });
+  });
+};
+
 // Render Function
 const render = (arrays) => {
   let photo = collect("photo");
   let content = arrays
     .map((array, index) => {
       return `
-      
-       <div class="cards col-sm-6 col-md-4 text-center">
+       <div  class="cards col-sm-6 col-md-4 text-center">
             <div
               style="width: 99%"
               class="card-body position-relative ms-auto me-auto mb-2"
@@ -144,7 +167,6 @@ const render = (arrays) => {
               </p>
             </div>
           </div>
-      
     `;
     })
     .join("");
@@ -376,9 +398,6 @@ function close() {
   modal.classList.toggle("none");
   form.forEach((form) => {
     form.classList.add("none");
-    form
-      .querySelector("input[type=submit]")
-      .removeEventListener("click", arguments.callee, false);
   });
 }
 function setHead(param) {
@@ -392,4 +411,3 @@ function alert(text, color) {
     alerts.style.color = "";
   }, 1500);
 }
-// Rendering In a New Page
