@@ -411,3 +411,8 @@ function alert(text, color) {
     alerts.style.color = "";
   }, 1500);
 }
+window.addEventListener("DOMContentLoaded", () => {
+  // console.log("window loadded");
+  getUser();
+  // console.log("users called and displaye");
+});
